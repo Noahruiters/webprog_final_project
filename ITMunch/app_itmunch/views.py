@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .models import Profile
+import requests #anaconda prompt -> conda activate [Umgebung] -> conda install requests
 
 class ProfileForm(forms.ModelForm):
     class Meta:
@@ -84,3 +85,39 @@ def calculate_calories(profile):
     elif profile.goal == 'gain_weight':
         calories += 500
     return calories
+
+
+
+def nutrition_list_from_api(inputstring):
+    
+    API_KEY = 'JcPgeDeZOfKWAs52cv2PNyAWTBcREDeyKg7hhFyM'
+    api_url = f"https://api.nal.usda.gov/fdc/v1/foods/search?api_key={API_KEY}&query={inputstring}&pageSize=10&sortBy=dataType.keyword&sortOrder=asc"
+    
+    response = requests.get(api_url)
+    response.raise_for_status()
+    data =response.json()
+   
+    if 'foods' not in data :
+        raise Exception("No foods found")
+
+    nutrition_list = []
+    for food in data['foods']:
+        food_dict = {
+            "name": food['description'],
+            "fat": None,
+            "protein": None,
+            "carbohydrates": None
+        }
+
+        for nutrient in food['foodNutrients']:
+            if nutrient['nutrientName'] == 'Total lipid (fat)':
+                food_dict["fat"] = nutrient['value']
+            elif nutrient['nutrientName'] == 'Protein':
+                food_dict["protein"] = nutrient['value']
+            elif nutrient['nutrientName'] == 'Carbohydrate, by difference':
+                food_dict["carbohydrates"] = nutrient['value']
+
+        nutrition_list.append(food_dict)
+    return(nutrition_list)
+        
+
