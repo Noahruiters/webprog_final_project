@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .models import Profile
-import requests #anaconda prompt -> conda activate [Umgebung] -> conda install requests
+import requests #anaconda prompt -> conda activate [environment] -> conda install requests
 
 class ProfileForm(forms.ModelForm):
     class Meta:
@@ -89,6 +89,20 @@ def calculate_calories(profile):
 
 
 def nutrition_list_from_api(inputstring):
+    """Retrieves nutritional data from the REST API
+
+        Parameters
+        ----------
+        inputstring : str
+            the search keyword typed into the search bar
+
+        Raises
+        ------
+        HTTPError
+            If status code from get request is 3xx or 4xx it raises an exception
+        Exception
+            If the response contains no food, an exception is raised TODO: change that
+        """
     
     API_KEY = 'JcPgeDeZOfKWAs52cv2PNyAWTBcREDeyKg7hhFyM'
     api_url = f"https://api.nal.usda.gov/fdc/v1/foods/search?api_key={API_KEY}&query={inputstring}&pageSize=10&sortBy=dataType.keyword&sortOrder=asc"
@@ -98,7 +112,7 @@ def nutrition_list_from_api(inputstring):
     data =response.json()
    
     if 'foods' not in data :
-        raise Exception("No foods found")
+        raise Exception("No foods found") #should be displayed on front end without actually throwing an exception
 
     nutrition_list = []
     for food in data['foods']:
