@@ -175,6 +175,7 @@ def nutrition_list_from_api(inputstring):
             "fat": None,
             "protein": None,
             "carbohydrates": None
+            #TODO: calories
         }
 
         for nutrient in food['foodNutrients']:
@@ -184,6 +185,7 @@ def nutrition_list_from_api(inputstring):
                 food_dict["protein"] = nutrient['value']
             elif nutrient['nutrientName'] == 'Carbohydrate, by difference':
                 food_dict["carbohydrates"] = nutrient['value']
+            #TODO: elif calories
 
         nutrition_list.append(food_dict)
     return(nutrition_list)
