@@ -9,7 +9,14 @@ import requests #anaconda prompt -> conda activate [environment] -> conda instal
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['goal', 'gender', 'birthday', 'height', 'current_weight', 'goal_weight', 'activity']
+        fields = ['goal', 'gender', 'birthday', 'height', 'current_weight', 'goal_weight', 'goal_date', 'activity']
+        labels = {
+            'birthday': 'Birthday (YYYY-MM-DD)',
+            'height': 'Height (Centimeters)',
+            'current_weight': 'Current weight (Kilograms)',
+            'goal_weight': 'Goal weight (Kilograms)',
+            'goal_date': 'Goal date (YYYY-MM-DD)',
+        }
 
 def index(request):
     """Index view for the application.
@@ -109,7 +116,10 @@ def questions_view(request):
             return redirect('app_itmunch:index')
     else: # empty profile form to render the HTML page
         form = ProfileForm(instance=profile)
-    return render(request, 'app_itmunch/questions.html', {'form': form})
+    if created:  # render questions page if the profile was just created
+        return render(request, 'app_itmunch/questions.html', {'form': form})
+    else:  # render edit profile page if the profile already exists
+        return render(request, 'app_itmunch/edit.html', {'form': form})
 
 def calculate_calories(profile):
     """Calculate daily calorie needs based on the profile.
@@ -120,6 +130,7 @@ def calculate_calories(profile):
     Returns:
         int: The calculated daily calorie needs.
     """
+
     weight = float(profile.current_weight)
     height = float(profile.height)
     age = (datetime.date.today() - profile.birthday).days // 365 # calculate age based on today date
@@ -127,7 +138,6 @@ def calculate_calories(profile):
         bmr = 10 * weight + 6.25 * height - 5 * age + 5
     else:
         bmr = 10 * weight + 6.25 * height - 5 * age - 161
-    
     multiplier = { # activity level multipliers
         'sedentary': 1.2,
         'lightly_active': 1.375,
@@ -136,11 +146,30 @@ def calculate_calories(profile):
         'extra_active': 1.9
     }
     calories = int(bmr * multiplier[profile.activity]) # calculate calories based on activity level
-    if profile.goal == 'lose_weight': # adjust calories based on the user's goal
-        calories -= 500
-    elif profile.goal == 'gain_weight':
-        calories += 500
-    return calories
+    days_left = (profile.goal_date - datetime.date.today()).days # calculate difference between today and goal date
+    if profile.goal == 'maintain_weight':
+        if calories < 1500: # check if its above the minimum safe daily calories
+            print(f"Your calculated daily calories ({calories}) are too low. Setting to minimum safe value ({1500}).") # TO-DO pass it as a message and print it as an alert
+            calories = 1500
+        return calories
+    else:
+        weight_change = float(profile.goal_weight) - float(profile.current_weight) # calculate weight difference between current and goal
+        if days_left > 0: # check if its a positive number of days to reach the goal
+            adjustment = (weight_change * 3500) / days_left # approximation 0.5kg accounts for about 3500 kcal of energy
+            if profile.goal == 'lose_weight': # adjust calories based on the user's goal
+                calories += adjustment - 500 
+            elif profile.goal == 'gain_weight':
+                calories += adjustment + 500
+        else:
+            print(f"Your goal date has passed. Setting daily calories to fixed adjustement.") # TO-DO pass it as a message and print it as an alert
+            if profile.goal == 'lose_weight':  # adjust calories based on the user's goal
+                calories -= 500 
+            elif profile.goal == 'gain_weight':
+                calories += 500
+    if calories < 1500: # check if its above the minimum safe daily calories
+        print(f"Your calculated daily calories ({calories}) are too low. Setting to minimum safe value ({1500}).") # TO-DO pass it as a message and print it as an alert
+        calories = 1500
+    return int(calories)
 
 def nutrition_list_from_api(inputstring):
     """Retrieves nutritional data from the REST API

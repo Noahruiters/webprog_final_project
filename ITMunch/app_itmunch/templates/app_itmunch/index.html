@@ -5,5 +5,6 @@
 {% block body %}
     <h1>Welcome, {{ request.user.username }}!</h1>
     <p>Daily calorie intake: {{ calories }} kcal</p>
+    <a href="{% url 'app_itmunch:edit' %}">Edit Profile</a>
     <a href="{% url 'app_itmunch:logout' %}">Logout</a>
 {% endblock %}

@@ -3,12 +3,13 @@ from django.contrib.auth.models import User
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    goal = models.CharField(max_length=20, choices=[('lose_weight', 'Lose Weight'), ('gain_weight', 'Gain Weight')])
+    goal = models.CharField(max_length=20, choices=[('maintain_weight', 'Maintain Weight'), ('lose_weight', 'Lose Weight'), ('gain_weight', 'Gain Weight')])
     gender = models.CharField(max_length=10, choices=[('male', 'Male'), ('female', 'Female')])
     birthday = models.DateField(default='1900-01-01')
     height = models.CharField(max_length=50)
     current_weight = models.CharField(max_length=50)
     goal_weight = models.CharField(max_length=50)
+    goal_date = models.DateField(default='1900-01-01')
     activity = models.CharField(max_length=50, choices=[
         ('sedentary', 'Sedentary (little to no exercise)'),
         ('lightly_active', 'Lightly active (light exercise/sports 1-3 days a week)'),
