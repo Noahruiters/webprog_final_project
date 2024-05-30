@@ -1,12 +1,52 @@
 {% extends "app_itmunch/layout.html" %}
 
+{% load static %}
+
+
+
 {% block title %}Questions{% endblock %}
 
 {% block body %}
+
+<script src="{% static 'app_itmunch/questions.js' %}"></script>
+
+<style>
+    .question.active{
+        display: block;
+    }
+    .question{
+        display: none;
+    }
+</style>
+
+
     <h1>Questions</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
+        <div class="question active">
+            {{form.goal.label_tag}} {{form.goal}}
+        </div>
+        <div class="question">
+            {{form.gender.label_tag}} {{form.gender}}
+        </div>
+        <div class="question">
+            {{form.birthday.label_tag}} {{form.birthday}}
+        </div>
+        <div class="question">
+            {{form.height.label_tag}} {{form.height}}
+        </div>
+        <div class="question">
+            {{form.current_weight.label_tag}} {{form.current_weight}}
+        </div>
+        <div class="question">
+            {{form.goal_weight.label_tag}} {{form.goal_weight}}
+        </div>
+        <div class="question">
+            {{form.activity.label_tag}} {{form.activity}}
+        </div>
+
+        <!-- {{ form.as_p }} -->
+        <button id="button_next">Next</button>
+        <button type="submit" style="display:none" id="button_submit">Submit</button>
     </form>
 {% endblock %}
