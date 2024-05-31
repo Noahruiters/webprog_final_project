@@ -6,9 +6,9 @@ class Profile(models.Model):
     goal = models.CharField(max_length=20, choices=[('maintain_weight', 'Maintain Weight'), ('lose_weight', 'Lose Weight'), ('gain_weight', 'Gain Weight')])
     gender = models.CharField(max_length=10, choices=[('male', 'Male'), ('female', 'Female')])
     birthday = models.DateField(default='1900-01-01')
-    height = models.CharField(max_length=50)
-    current_weight = models.CharField(max_length=50)
-    goal_weight = models.CharField(max_length=50)
+    height = models.FloatField(default=0)
+    current_weight = models.FloatField(default=0)
+    goal_weight = models.FloatField(default=0)
     goal_date = models.DateField(default='1900-01-01')
     activity = models.CharField(max_length=50, choices=[
         ('sedentary', 'Sedentary (little to no exercise)'),

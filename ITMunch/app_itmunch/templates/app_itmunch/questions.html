@@ -1,12 +1,54 @@
 {% extends "app_itmunch/layout.html" %}
 
+
 {% block title %}Questions{% endblock %}
 
 {% block body %}
+
+
+
+<style>
+    .question.active{
+        display: flex;
+    }
+    .question{
+        display: none;
+    }
+</style>
+
     <h1>Questions</h1>
-    <form method="post">
+
+    <form id="question-form" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
+        <div class="question active">
+            {{ form.goal.label_tag }} {{ form.goal }}
+        </div>
+        <div class="question">
+            {{ form.gender.label_tag }} {{ form.gender }}
+        </div>
+        <div class="question">
+            {{ form.birthday.label_tag }} {{ form.birthday }}
+        </div>
+        <div class="question">
+            {{ form.height.label_tag }} {{ form.height }}
+        </div>
+        <div class="question">
+            {{ form.current_weight.label_tag }} {{ form.current_weight }}
+        </div>
+        <div class="question">
+            {{ form.goal_weight.label_tag }} {{ form.goal_weight }}
+        </div>
+        <div class="question">
+            {{ form.goal_date.label_tag }} {{ form.goal_date }}
+        </div>
+        <div class="question">
+            {{ form.activity.label_tag }} {{ form.activity }}
+        </div>
+        
+
+        
+        
+        <button type="submit" style="display:none" id="button_submit">Submit</button>
     </form>
+    <button id="button_next" type="button">Next</button>
 {% endblock %}
