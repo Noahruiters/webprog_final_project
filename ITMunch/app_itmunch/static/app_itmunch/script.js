@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded',function(){
     const questions = document.querySelectorAll('.question');
     const nextButton = document.querySelector('#button_next');
     const submitButton = document.querySelector('#button_submit');
+    const form = document.querySelector('form');
     let currentQuestionIndex = 0;
 
 
@@ -29,7 +30,9 @@ document.addEventListener('DOMContentLoaded',function(){
         if (currentQuestionIndex === questions.length - 1) {
             nextButton.style.display = 'none';
             submitButton.style.display = 'inline-block';
+            submitButton.onclick=function(){
+                form.submit(); // submit the form
+            };
         }
-
     }
 })
