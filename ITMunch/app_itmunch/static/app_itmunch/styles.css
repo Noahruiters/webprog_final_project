@@ -24,11 +24,40 @@
 }
 
 .login > div {
-    border-style: solid;
-    border-width: 0.5px;
-    border-color: #3e3e3e;
     border-radius: 10px;
     width: 350px;
-    height: 300px;
+    height: auto;
     padding: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#button_login {
+    transition-duration: 0.4s;
+    background-color: #B0DBB2;
+    color: black;
+    border: 2px solid #B0DBB2;
+    border-radius: 3px;
+}
+
+#button_login:hover {
+    color: white;
+
+}
+
+.register {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 80px;
+}
+
+.register > div {
+    border-radius: 10px;
+    width: 400px;
+    height: auto;
+    padding: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
