@@ -192,6 +192,8 @@ def nutrition_list_from_api(inputstring, number_of_entries):
 
         Parameters
         ----------
+        request (HttpRequest): 
+            The request object used to generate this response.
         inputstring : str
             the search keyword typed into the search bar
         number_of_entries: int
