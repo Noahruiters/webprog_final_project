@@ -240,7 +240,7 @@ def save_recipeFormula(ingredients, name):
             Name of the recipe
 
     Returns:
-        TODO: add return
+        redirect to index.html
     """
     if (ingredients is None or name is None): raise ValueError()
 
@@ -257,6 +257,6 @@ def save_recipeFormula(ingredients, name):
         nutriment = Nutriment.objects.get_or_create(name = ingredient_element['name'], fat = ingredient_element['fat'], protein = ingredient_element['protein'], carbohydrates = ingredient_element['carbohydrates'], calories = ingredient_element['calories'])
         RecipeIngredient.objects.create(super = nutriment, weight = ingredient_element['weight']/total_weight*100, recipe = recipe)
 
-    return
+    return redirect('app_itmunch:index') #TODO: change that to a proper site
         
 
