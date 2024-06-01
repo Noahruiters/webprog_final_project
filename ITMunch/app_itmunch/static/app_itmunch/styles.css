@@ -126,8 +126,37 @@
     font-weight: bold;
 }
 
+#index_button {
+    transition-duration: 0.4s;
+    background-color: #ffffff;
+    color: black;
+    border: 2px solid #38793B;
+    border-radius: 5px;
+}
+
+#index_button:hover {
+    background-color: #38793B;
+}
 
 
+
+.edit {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 80px;
+}
+
+.edit > div {
+    border-radius: 10px;
+    width: 600px;
+    height: auto;
+    padding: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 
 
 

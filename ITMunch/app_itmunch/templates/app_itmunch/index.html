@@ -4,8 +4,6 @@
 
 {% block body %}
 
-    
-    <a href="{% url 'app_itmunch:logout' %}">Logout</a>
 
     <div class="index_container">
         <div class="index_flexbox">
@@ -41,7 +39,10 @@
 
 
         </div>
-        <div class="index_flexbox">Flexbox 3</div>
+        <div class="index_flexbox">
+            <h2>Recipes</h2>
+            <button id="index_button">Add Now</button>
+        </div>
     </div>
 
 
