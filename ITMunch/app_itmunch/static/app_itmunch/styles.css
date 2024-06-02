@@ -105,6 +105,17 @@
     text-align: center;
 }
 
+.question_box > div {
+    text-align: center;
+}
+
+.question.active{
+    display: flex;
+}
+.question{
+    display: none;
+}
+
 
 @media (max-width: 768px) {
     .index_flexbox {
@@ -182,6 +193,25 @@
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
 
+    .question_box {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        padding: 80px;
+    }
+
+    .question_box > div {
+        border-radius: 10px;
+        width: auto;
+        height: auto;
+        padding: 30px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
 
 
 }
+
