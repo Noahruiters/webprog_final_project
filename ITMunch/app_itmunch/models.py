@@ -18,23 +18,29 @@ class Profile(models.Model):
         ('extra_active', 'Extra active (very hard exercise/sports & physical job)')
     ], default='sedentary')
 
-class Nutriment(models.Model):
+class Recipe(models.Model):
+    name = models.CharField(max_length=128)
+
+class Ingredient(models.Model):
     name = models.CharField(max_length=128)
     fat = models.FloatField(default=0)
     protein = models.FloatField(default=0,)
     carbohydrates = models.FloatField(default=0)
     calories = models.PositiveIntegerField(default=0)
-    class Meta:
-        abstract = True
+    weight = models.PositiveIntegerField(default=0)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
 
-class RecipeFormula(models.Model):
-    name = models.CharField(max_length=128, unique=True)
-
-class RecipeIngredient(Nutriment):
-    weight = models.FloatField(default=0)
-    recipe = models.ForeignKey(RecipeFormula, on_delete=models.CASCADE)
-
-
+class NutritionEntry(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    day = models.DateField()
+    daytime = models.CharField(max_length=50, choices=[
+        ('breakfast','Breakfast'),
+        ('lunch','Lunch'),
+        ('dinner','Dinner'),
+        ('snack','Snack'),
+    ], default='Snack')
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
+    
 
 
 

@@ -1,0 +1,12 @@
+{% extends "app_itmunch/layout.html" %}
+
+{% block title %}Add recipe{% endblock %}
+
+{% block body %}
+    <h1>Add recipe</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit Recipe</button>
+    </form>
+{% endblock %}

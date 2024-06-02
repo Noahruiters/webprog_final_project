@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .models import *
+import re
 import requests #anaconda prompt -> conda activate [environment] -> conda install requests
 
 class ProfileForm(forms.ModelForm):
@@ -16,6 +17,25 @@ class ProfileForm(forms.ModelForm):
             'current_weight': 'Current weight (Kilograms)',
             'goal_weight': 'Goal weight (Kilograms)',
             'goal_date': 'Goal date (YYYY-MM-DD)',
+        }
+
+class RecipeSaveForm(forms.ModelForm):
+    class Meta:
+        model = Recipe
+        fields = ['recipeName', 'ingredientList']
+        labels = {
+            'name': 'Name of the recipe',
+            'ingredientList': 'Ingredients listed like this: 100g Apples, 50g Cinnamon, 30g Sugar'
+        }
+
+class NutritionEntryForm(forms.ModelForm):
+    class Meta:
+        model = NutritionEntry
+        fields = ['day', 'daytime', 'ingredientList']
+        labels = {
+            'day': 'The day you ate this food',
+            'daytime': 'Time of the day you ate this food',
+            'ingredientList': 'Ingredients listed like this: 100g Apples, 50g Cinnamon, 30g Sugar'
         }
 
 def index(request):
@@ -171,15 +191,15 @@ def calculate_calories(profile):
         calories = 1500
     return int(calories)
 
-def nutrition_list_from_api(request, inputstring):
+def nutrition_list_from_api(inputstring, number_of_entries):
     """Retrieves nutritional data from the REST API
 
         Parameters
         ----------
-        request (HttpRequest): 
-            The request object used to generate this response.
         inputstring : str
             the search keyword typed into the search bar
+        number_of_entries: int
+            number of entries
 
         Raises
         ------
@@ -190,7 +210,7 @@ def nutrition_list_from_api(request, inputstring):
         """
     
     API_KEY = 'JcPgeDeZOfKWAs52cv2PNyAWTBcREDeyKg7hhFyM'
-    api_url = f"https://api.nal.usda.gov/fdc/v1/foods/search?api_key={API_KEY}&query={inputstring}&pageSize=10&sortBy=dataType.keyword&sortOrder=asc"
+    api_url = f"https://api.nal.usda.gov/fdc/v1/foods/search?api_key={API_KEY}&query={inputstring}&pageSize={number_of_entries}&sortBy=dataType.keyword&sortOrder=asc"
     
     response = requests.get(api_url)
     response.raise_for_status()
@@ -220,47 +240,97 @@ def nutrition_list_from_api(request, inputstring):
                  food_dict['calories'] = nutrient['value']
 
         nutrition_list.append(food_dict)
-    return render(request, 'app_itmunch/recipe.html', {'food_dict': food_dict})
+    return food_dict
 
-def save_recipeFormula(ingredients, name):
+def get_recipe(request, inputstring):
+    recipe = Recipe.objects.get(name = inputstring) #TODO:  so programmieren, dass es auch mit substring funktioniert
+    ingredients = list(Ingredient.objects.get_queryset(recipe=recipe))
+    return render(request, 'app_itmunch:add.html', {"ingredients": ingredients})
+
+def nutrition_data_from_string(inputstring):
+    """This code is so bad that it really shouldn't exist. This shall be our little secret"""
+    list = re.split('g |, ', inputstring)
+    inputDicList = []
+    counter=0
+    var = None
+    for txt in list:
+        if (counter%2==0):
+            var = int(txt)
+        else:
+            inputDicList.append(
+                {
+                'ingredientName': txt,
+                'weight': var                  
+                })
+        counter+=1
+    return inputDicList
+
+
+def set_recipe(request):
     """Saves the recipe in the database
 
     Args:
-        ingredients : {
-            'name' : str,
-            'fat' : float,
-            'protein' : float,
-            'carbhydrates' : float,
-            'calories' : int,
-            'weight' : float
-        }
-            Ingredients which are selected from the Nutrition API with a selected weigtht from the recipe html page
-
         name : str
             Name of the recipe
 
     Returns:
         redirect to index.html
     """
-    if (ingredients is None or name is None): raise ValueError()
+    form = RecipeSaveForm(request)
+    if form.is_valid:
+        recipe = Recipe.objects.create(name = form.cleaned_data['recipeName'])
 
-    total_weight=0
-    for ingredient_element in ingredients:
-        total_weight+=ingredient_element['weight']
+        #the following code is very sloppy and breaks easily , TODO: write it better some day (I prob won't)
+        ingredientDicList = nutrition_data_from_string(form.cleaned_data['ingredientList'])
 
-    try:
-        recipe = RecipeFormula.objects.create(name = name)
-    except:
-        return("Recipe already exists")
-    
-    for ingredient_element in ingredients:
-        nutriment = Nutriment.objects.get_or_create(name = ingredient_element['name'], fat = ingredient_element['fat'], protein = ingredient_element['protein'], carbohydrates = ingredient_element['carbohydrates'], calories = ingredient_element['calories'])
-        RecipeIngredient.objects.create(super = nutriment, weight = ingredient_element['weight']/total_weight*100, recipe = recipe)
+    for ingredient_element in ingredientDicList:
+        food_dict = nutrition_list_from_api(ingredient_element['ingredientName'], 1)[0]
+        Ingredient.objects.create(name=ingredient_element['name'], 
+                                  fat=food_dict['fat'], 
+                                  protein=food_dict['protein'], 
+                                  carbohydrates=food_dict['carbohydrates'], 
+                                  calories=food_dict['calories'],
+                                  weight=ingredient_element['weight'], 
+                                  recipe=recipe)
 
     return redirect('app_itmunch:index') #TODO: change that to a proper site
 
-def get_RecipeFormulaCandidates(inputstring):
-    recipes = RecipeFormula.objects.get_queryset(RecipeFormula.name.contains(inputstring))
-    return list(recipes.objects.values())
+def delete_recipe(name):
+    Recipe.objects.delete(name=name)
+    return redirect('app_itmunch:index') #TODO: change that to a proper site
+
+def get_nutritionEntry(request, day):
+    nutritionEntries = list(NutritionEntry.objects.get_queryset(day=day))
+    return render(request, 'app_itmunch:index.html', {"nutritionEntries": nutritionEntries}) #TODO: change that to a proper site
+
+def set_nutritionEntry(request):
+    #TODO: validation
+    form = NutritionEntryForm(request)
+    day = form.cleaned_data['day']
+    daytime = form.cleaned_data['daytime']
+    ingredientDicList = nutrition_data_from_string(form.cleaned_data['ingredientList'])
+    for ingredient_element in ingredientDicList:
+        food_dict = nutrition_list_from_api(ingredient_element['ingredientName'], 1)[0]
+        ingredient = Ingredient.objects.create(name=ingredient_element['name'], 
+                                  fat=food_dict['fat'], 
+                                  protein=food_dict['protein'], 
+                                  carbohydrates=food_dict['carbohydrates'], 
+                                  calories=food_dict['calories'],
+                                  weight=ingredient_element['weight'], 
+                                  recipe=None) #TODO: add recipeData
+        NutritionEntry.objects.create(user=request.user, day=day, daytime=daytime, ingredient=ingredient)
+    return redirect('app_itmunch:index') #TODO: change that to a proper site
+
+def delete_nutritionEntry(request, day, daytime, ingredients):
+    if (day is None): raise ValueError
+    elif(daytime is None):
+        NutritionEntry.objects.delete(user=request.user, day=day)
+    elif(ingredients is None):
+        NutritionEntry.objects.delete(user=request.user, day=day, daytime=daytime)
+    else:
+        for ingredient in ingredients:
+            NutritionEntry.objects.delete(user=request.user, day=day, daytime=daytime, ingredient=ingredient)
+    return redirect('app_itmunch:index') #TODO: change that to a proper site
+
         
 
