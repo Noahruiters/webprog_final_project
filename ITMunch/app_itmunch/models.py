@@ -20,9 +20,9 @@ class Profile(models.Model):
 
 class Nutriment(models.Model):
     name = models.CharField(max_length=128)
-    fat = models.FloatField(default=0, min=0)
-    protein = models.FloatField(default=0, min=0)
-    carbohydrates = models.FloatField(default=0, min=0)
+    fat = models.FloatField(default=0)
+    protein = models.FloatField(default=0,)
+    carbohydrates = models.FloatField(default=0)
     calories = models.PositiveIntegerField(default=0)
     class Meta:
         abstract = True
@@ -31,7 +31,7 @@ class RecipeFormula(models.Model):
     name = models.CharField(max_length=128, unique=True)
 
 class RecipeIngredient(Nutriment):
-    weight = models.FloatField(default=0, min=0)
+    weight = models.FloatField(default=0)
     recipe = models.ForeignKey(RecipeFormula, on_delete=models.CASCADE)
 
 

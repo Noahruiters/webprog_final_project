@@ -258,5 +258,9 @@ def save_recipeFormula(ingredients, name):
         RecipeIngredient.objects.create(super = nutriment, weight = ingredient_element['weight']/total_weight*100, recipe = recipe)
 
     return redirect('app_itmunch:index') #TODO: change that to a proper site
+
+def get_RecipeFormulaCandidates(inputstring):
+    recipes = RecipeFormula.objects.get_queryset(RecipeFormula.name.contains(inputstring))
+    return list(recipes.objects.values())
         
 
