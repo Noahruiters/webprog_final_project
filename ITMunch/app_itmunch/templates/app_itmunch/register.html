@@ -1,13 +1,17 @@
-{% extends "app_itmunch/layout.html" %}
+{% extends "app_itmunch/layout2.html" %}
 
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+    <div class="register">
+        <div>
+<h1>Register</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Register</button>
+        <button id="button_login" type="submit">Register</button>
     </form>
     <p>Already have an account? <a href="{% url 'app_itmunch:login' %}">Login here</a></p>
+</div>
+</div>
 {% endblock %}

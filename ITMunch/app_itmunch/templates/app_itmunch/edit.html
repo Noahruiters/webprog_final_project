@@ -1,12 +1,17 @@
-{% extends "app_itmunch/layout.html" %}
+{% extends "app_itmunch/layout1.html" %}
 
 {% block title %}Edit Profile{% endblock %}
 
 {% block body %}
+<div class="edit">
+    <div>
     <h1>Edit Profile</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Save Changes</button>
+        <button id="button_login" type="submit">Save Changes</button>
     </form>
+    </div>
+</div>
+
 {% endblock %}
