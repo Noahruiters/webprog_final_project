@@ -10,4 +10,6 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('questions/', views.questions_view, name='questions'),
     path('edit/', views.questions_view, name='edit'),
+    path('add_recipe/', views.set_recipe, name='add_recipe')
+    #TODO: add urls
 ]
