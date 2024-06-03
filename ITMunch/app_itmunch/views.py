@@ -242,7 +242,7 @@ def save_nutritionEntry(request):
     form = NutritionEntryForm(request)
     if form.is_valid():
         form.save()
-    return redirect('app_itmunch:index')
+    return redirect('app_itmunch:index') #TODO: Notification
 
 def load_nutritionEntry(request, day, daytime):
     user = request.user
@@ -264,4 +264,5 @@ def load_nutritionEntry(request, day, daytime):
 def delete_nutritionEntry(request, day, daytime, ingredient, weight):
     user = request.user
     NutritionEntry.objects.delete(user == user and day == day and daytime == daytime and ingredient == ingredient and weight == weight)
+    return redirect('app_itmunch:index') #TODO: Notification
     
