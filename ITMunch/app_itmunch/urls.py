@@ -10,6 +10,7 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('questions/', views.questions_view, name='questions'),
     path('edit/', views.questions_view, name='edit'),
-    path('add_recipe/', views.set_recipe, name='add_recipe')
-    #TODO: add urls
+    path('save_entry/', views.save_nutritionEntry, name='save_entry'), 
+    path('load_entry/', views.load_nutritionEntry, name='load_entry'),#TODO: add variables I think
+    path('delete_entry/', views.delete_nutritionEntry, name='delete_entry')#TODO: add variables I think
 ]
