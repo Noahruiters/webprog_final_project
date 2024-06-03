@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .models import *
 import re
+from .models import *
+import re
 import requests #anaconda prompt -> conda activate [environment] -> conda install requests
 
 class ProfileForm(forms.ModelForm):
@@ -184,12 +186,15 @@ def calculate_calories(profile):
     return int(calories)
 
 def nutrition_list_from_api(inputstring, number_of_entries):
+def nutrition_list_from_api(inputstring, number_of_entries):
     """Retrieves nutritional data from the REST API
 
         Parameters
         ----------
         inputstring : str
             the search keyword typed into the search bar
+        number_of_entries: int
+            number of entries
         number_of_entries: int
             number of entries
 
