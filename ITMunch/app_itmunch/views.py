@@ -186,7 +186,6 @@ def calculate_calories(profile):
     return int(calories)
 
 def nutrition_list_from_api(inputstring, number_of_entries):
-def nutrition_list_from_api(inputstring, number_of_entries):
     """Retrieves nutritional data from the REST API
 
         Parameters
