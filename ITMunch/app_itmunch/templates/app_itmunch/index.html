@@ -101,11 +101,12 @@
             });
             calendar.render();
 
+            
             // Pop-up tutorial page when first connection
             window.onload = function() {
-                if (!sessionStorage.getItem('popupDisplayed')) {
+                var show_tutorial = "{{ show_tutorial }}";
+                if (show_tutorial == "True") {
                     document.getElementById('myModal').style.display = 'block';
-                    sessionStorage.setItem('popupDisplayed', 'true');
                 }
 
                 var modal = document.getElementById('myModal');

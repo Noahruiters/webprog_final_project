@@ -33,7 +33,8 @@ def index(request):
     user = request.user
     profile, created = Profile.objects.get_or_create(user=user) # get or create a profile for the user
     calories = calculate_calories(profile)
-    return render(request, 'app_itmunch/index.html', {'profile': profile, 'calories': calories})
+    show_tutorial = request.session.pop('show_tutorial', False)
+    return render(request, 'app_itmunch/index.html', {'profile': profile, 'calories': calories, 'show_tutorial': show_tutorial})
 
 def login_view(request):
     """Login view for the application.
@@ -113,6 +114,7 @@ def questions_view(request):
         form = ProfileForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
+            request.session['show_tutorial'] = True
             return redirect('app_itmunch:index')
     else: # empty profile form to render the HTML page
         form = ProfileForm(instance=profile)
