@@ -4,6 +4,31 @@
 
 {% block body %}
 
+    <style>
+        
+        .modal {
+           display: none; 
+           position:relative;
+           width: 100%;
+           height: 100%;
+           overflow: auto;
+           padding-top: 60px;
+           background-color: #38793b68;
+       }
+       .modal-content {
+           margin: 5% auto;
+           padding: 20px;
+           border: 1px solid black;
+           background: white;
+           width: 50%;
+       }
+       .tuto.active{
+        display: block;
+       }
+       .tuto{
+        display: none;
+       }
+    </style>
 
     <div class="index_container">
         <div class="index_flexbox">
@@ -13,6 +38,8 @@
             </div>
         </div>
         <div class="index_flexbox">
+
+
             <h1>Welcome, {{ request.user.username }}!</h1>
             <p>Daily calorie intake: {{ calories }} kcal</p>
 
@@ -46,12 +73,39 @@
         </div>
     </div>
 
+    <!-- pop_up tuto content -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <h1>How to use ITMunch?</h1>
+    
+            <div class="tuto active">
+                <h2>Add the food you eat daily!</h2>
+                <p>For every meal of your day, you can add the food you eat to follow your calorie intake. You have to weight your food, and then add it to the corresponding meal by clicking on the "add" button.</p>
+            </div>
+
+            <div class="tuto">
+                <h2>Follow your progress monthly</h2>
+                <p>tuto text</p>
+            </div>
+
+            <div class="tuto">
+                <h2>Add new food to your list</h2>
+                <p>tuto text</p>
+            </div>
+    
+            <button id="next">Next</button>
+            <button id="close" style="display:none">Close</button>
+        </div>
+    </div>
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+
+            //Creation of the calendar
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -59,6 +113,43 @@
             });
 
             calendar.render();
+
+
+            //Pop-up tuto page when first connection
+            window.onload = function() {
+                if (!sessionStorage.getItem('popupDisplayed')) {
+                    document.getElementById('myModal').style.display = 'block';
+                    sessionStorage.setItem('popupDisplayed', 'true');
+                }
+            
+                var modal = document.getElementById('myModal');
+                var span = document.getElementsByClassName('close')[0];
+
+                const tutos = document.querySelectorAll('.tuto');
+                const nextButton = document.querySelector('#next');
+                const closeButton=document.querySelector("#close");
+                let currentTutoIndex = 0;
+
+                //when next button is clicked, display tg=he next tuto div
+                nextButton.onclick = function() {
+                    const currentTuto = tutos[currentTutoIndex];
+                    currentTuto.classList.remove('active');
+                    currentTutoIndex++;
+                    
+                    if (currentTutoIndex < tutos.length) {
+                        tutos[currentTutoIndex].classList.add('active');
+                    }
+
+                    if (currentTutoIndex === tutos.length - 1) {
+                        nextButton.style.display = 'none';
+                        closeButton.style.display='block';
+                        closeButton.onclick = function() {
+                            modal.style.display = 'none';
+                        }
+                    }
+                }
+            }
+
         });
     </script>
 
