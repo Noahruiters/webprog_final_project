@@ -25,7 +25,7 @@ class NutritionEntry(models.Model):
         ('breakfast','Breakfast'),
         ('lunch','Lunch'),
         ('dinner','Dinner'),
-    ]),
+    ], default='Lunch')
     ingredient = models.CharField(max_length=128, default="")
     weight = models.PositiveIntegerField(default=0)
 
