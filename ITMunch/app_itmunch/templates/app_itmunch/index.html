@@ -45,20 +45,21 @@
             <h1>Welcome, {{ request.user.username }}!</h1>
             <p>Daily calorie intake: {{ calories }} kcal</p>
             <div class="progress" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 30px">
-                <div class="progress-bar bg-dark" style="width: 70%">XXXkcal eaten</div>
+                <div id="progress-bar-eaten" class="progress-bar bg-dark"></div>
             </div>
+            <div>{{ calories_eaten }} kcal eaten</div>
             <div class="middle_container">
                 <div class="middle_box" style="background-color: #B0DBB2;">
                     <h6>Breakfast</h6>
-                    <h5>XXXkcal</h5>
+                    <h5>{{ breakfast_calories }} kcal</h5>
                 </div>
                 <div class="middle_box" style="background-color: #558D57;">
                     <h6>Lunch</h6>
-                    <h5>XXXkcal</h5>
+                    <h5>{{ lunch_calories }} kcal</h5>
                 </div>
                 <div class="middle_box" style="background-color: #38793B;">
                     <h6>Dinner</h6>
-                    <h5>XXXkcal</h5>
+                    <h5>{{ dinner_calories }} kcal</h5>
                 </div>
             </div>
         </div>
@@ -134,6 +135,8 @@
                     modal.style.display = 'none';
                 }
             }
+            const progressBar = document.querySelector('#progress-bar-eaten');
+            progressBar.style.width = "{{ progress }}%";
         });
     </script>
 

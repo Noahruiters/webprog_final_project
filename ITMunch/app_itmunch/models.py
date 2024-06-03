@@ -28,8 +28,3 @@ class NutritionEntry(models.Model):
     ], default='Lunch')
     ingredient = models.CharField(max_length=128, default="")
     weight = models.PositiveIntegerField(default=0)
-
-
-
-
-    

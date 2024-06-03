@@ -47,8 +47,20 @@ def index(request):
     user = request.user
     profile, created = Profile.objects.get_or_create(user=user) # get or create a profile for the user
     calories = calculate_calories(profile)
+    calories_eaten = 1000
+    progress = (calories_eaten / calories) * 100
+    breakfast_calories = round(calories * 0.25) # calculate meal calories based on percentages
+    lunch_calories = round(calories * 0.40)
+    dinner_calories = round(calories * 0.35)
     show_tutorial = request.session.pop('show_tutorial', False)
-    return render(request, 'app_itmunch/index.html', {'profile': profile, 'calories': calories, 'show_tutorial': show_tutorial})
+    return render(request, 'app_itmunch/index.html', {'profile': profile,
+                                                      'calories': calories,
+                                                      'calories_eaten': calories_eaten,
+                                                      'progress': progress,
+                                                      'breakfast_calories': breakfast_calories,
+                                                      'lunch_calories': lunch_calories,
+                                                      'dinner_calories': dinner_calories,
+                                                      'show_tutorial': show_tutorial})
 
 def login_view(request):
     """Login view for the application.
@@ -128,11 +140,11 @@ def questions_view(request):
         form = ProfileForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
-            request.session['show_tutorial'] = True
             return redirect('app_itmunch:index')
     else: # empty profile form to render the HTML page
         form = ProfileForm(instance=profile)
     if created:  # render questions page if the profile was just created
+        request.session['show_tutorial'] = True # show tutorial if the profile was just created
         return render(request, 'app_itmunch/questions.html', {'form': form})
     else:  # render edit profile page if the profile already exists
         return render(request, 'app_itmunch/edit.html', {'form': form})
