@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart</title>
+</head>
+<body>
+
+    <main>
+        <h2>Items in Your Cart</h2>
+
+        {% if cart.items.exists %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Food Item</th>
+                        <th>Fat (g)</th>
+                        <th>Protein (g)</th>
+                        <th>Carbohydrates (g)</th>
+                        <th>Calories</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cart_item in cart_items %}
+                        <tr>
+                            <td>{{ cart_item.food.name }}</td>
+                            <td>{{ cart_item.food.fat }}</td>
+                            <td>{{ cart_item.food.protein }}</td>
+                            <td>{{ cart_item.food.carbohydrates }}</td>
+                            <td>{{ cart_item.food.calories }}</td>
+                            <td>
+                                <form action="{% url 'app_itmunch:remove_from_cart' cart_item.food.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 ITMunch</p>
+    </footer>
+</body>
+</html>

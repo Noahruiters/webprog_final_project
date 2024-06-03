@@ -1,0 +1,46 @@
+<!-- search_results.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ingredient Search Results</title>
+</head>
+<body>
+    <h1>Search for Nutritional Data</h1>
+    <form method="GET" action="{% url 'app_itmunch:search_results' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Search</button>
+    </form>
+
+    {% for item in nutrition_list %}
+        <li>
+            <span>Name: {{ item.name }}</span>
+            <span>Fat: {{ item.fat }}</span>
+            <span>Protein: {{ item.protein }}</span>
+            <span>Carbohydrates: {{ item.carbohydrates }}</span>
+            <span>Calories: {{ item.calories }}</span>
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'app_itmunch:add_to_cart' item.fdcId %}">Add to Cart</a>
+            {% endif %}
+        </li>
+    {% endfor %}
+
+    {% if nutrition_list %}
+        <h2>Nutrient Data:</h2>
+        <ul>
+            {% for item in nutrition_list %}
+                <li>Name: {{ item.name }}</li>
+                <li>Fat: {{ item.fat }}</li>
+                <li>Protein: {{ item.protein }}</li>
+                <li>Carbohydrates: {{ item.carbohydrates }}</li>
+                <li>Calories: {{ item.calories }}</li>
+                <br>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No nutrient data found.</p>
+    {% endif %}
+</body>
+</html>

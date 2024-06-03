@@ -1,6 +1,6 @@
 import datetime
 from django import forms
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .models import *
@@ -47,20 +47,55 @@ def index(request):
     user = request.user
     profile, created = Profile.objects.get_or_create(user=user) # get or create a profile for the user
     calories = calculate_calories(profile)
-    calories_eaten = 1000
+    calories_eaten = request.session.get('calories_eaten', 0)
     progress = (calories_eaten / calories) * 100
-    breakfast_calories = round(calories * 0.25) # calculate meal calories based on percentages
-    lunch_calories = round(calories * 0.40)
-    dinner_calories = round(calories * 0.35)
+    breakfast_calories = request.session.get('breakfast_calories', round(calories * 0.25)) # calculate meal calories based on percentages
+    lunch_calories = request.session.get('lunch_calories', round(calories * 0.40))
+    dinner_calories = request.session.get('dinner_calories', round(calories * 0.35))
     show_tutorial = request.session.pop('show_tutorial', False)
+
+    form = IngredientSearchForm(request.GET or None)
+    nutrition_list = []
+
+    if request.method == 'POST':
+        calories = float(request.POST.get('calories', 0))
+        calories_eaten = request.session.get('calories_eaten', 0)
+        meal = request.POST.get('meal')
+        if meal == 'breakfast':
+            breakfast_calories -= calories
+            if breakfast_calories < 0:
+                breakfast_calories = 0
+        elif meal == 'lunch':
+            lunch_calories -= calories
+            if lunch_calories < 0:
+                lunch_calories = 0
+        elif meal == 'dinner':
+            dinner_calories -= calories
+            if lunch_calories < 0:
+                lunch_calories = 0
+
+        calories_eaten += calories
+        request.session['calories_eaten'] = calories_eaten
+        request.session['breakfast_calories'] = breakfast_calories
+        request.session['lunch_calories'] = lunch_calories
+        request.session['dinner_calories'] = dinner_calories
+
+        return redirect('app_itmunch:index')
+
+    if form.is_valid():
+        ingredient = form.cleaned_data['ingredient']
+        nutrition_list = nutrition_list_from_api(inputstring=ingredient, number_of_entries=5)
+
     return render(request, 'app_itmunch/index.html', {'profile': profile,
-                                                      'calories': calories,
-                                                      'calories_eaten': calories_eaten,
+                                                      'calories': int(calories),
+                                                      'calories_eaten': int(calories_eaten),
                                                       'progress': progress,
-                                                      'breakfast_calories': breakfast_calories,
-                                                      'lunch_calories': lunch_calories,
-                                                      'dinner_calories': dinner_calories,
-                                                      'show_tutorial': show_tutorial})
+                                                      'breakfast_calories': int(breakfast_calories),
+                                                      'lunch_calories': int(lunch_calories),
+                                                      'dinner_calories': int(dinner_calories),
+                                                      'show_tutorial': show_tutorial,
+                                                      'form': form,
+                                                      'nutrition_list': nutrition_list,})
 
 def login_view(request):
     """Login view for the application.
@@ -219,6 +254,7 @@ def nutrition_list_from_api(inputstring, number_of_entries):
     
     API_KEY = 'JcPgeDeZOfKWAs52cv2PNyAWTBcREDeyKg7hhFyM'
     api_url = f"https://api.nal.usda.gov/fdc/v1/foods/search?api_key={API_KEY}&query={inputstring}&pageSize={number_of_entries}&sortBy=dataType.keyword&sortOrder=asc"
+    #api_url = f"https://api.nal.usda.gov/fdc/v1/foods/search?api_key=JcPgeDeZOfKWAs52cv2PNyAWTBcREDeyKg7hhFyM&query=apple&pageSize=5&sortBy=dataType.keyword&sortOrder=asc"
     
     response = requests.get(api_url)
     response.raise_for_status()
@@ -230,6 +266,7 @@ def nutrition_list_from_api(inputstring, number_of_entries):
     nutrition_list = []
     for food in data['foods']:
         food_dict = {
+            "fdcId": food['fdcId'],
             "name": food['description'],
             "fat": None,
             "protein": None,
@@ -248,7 +285,7 @@ def nutrition_list_from_api(inputstring, number_of_entries):
                  food_dict['calories'] = nutrient['value']
 
         nutrition_list.append(food_dict)
-    return food_dict
+    return nutrition_list
 
 def save_nutritionEntry(request):
     form = NutritionEntryForm(request)
@@ -278,3 +315,100 @@ def delete_nutritionEntry(request, day, daytime, ingredient, weight):
     NutritionEntry.objects.delete(user == user and day == day and daytime == daytime and ingredient == ingredient and weight == weight)
     return redirect('app_itmunch:index') #TODO: Notification
     
+
+
+
+
+
+
+
+
+
+
+class IngredientSearchForm(forms.Form):
+    ingredient = forms.CharField(label='Enter Ingredient')
+
+def search_results(request):
+    if request.method == 'GET':
+        form = IngredientSearchForm(request.GET)
+        if form.is_valid():
+            ingredient = form.cleaned_data['ingredient']
+            nutrition_list = nutrition_list_from_api(inputstring=ingredient, number_of_entries=5)
+            return render(request, 'app_itmunch/index.html', {'form': form, 'nutrition_list': nutrition_list})
+        else:
+            return render(request, 'app_itmunch/index.html', {'form': form})
+
+
+
+
+
+
+
+
+
+
+
+
+def add_to_cart(request, fdcId):
+    user = request.user
+    
+    try:
+        # Try to get the food item from the database
+        food = Food.objects.get(fdcId=fdcId)
+    except Food.DoesNotExist:
+        # If the food item does not exist, fetch it from the API
+        API_KEY = 'JcPgeDeZOfKWAs52cv2PNyAWTBcREDeyKg7hhFyM'
+        api_url = f"https://api.nal.usda.gov/fdc/v1/food/{fdcId}?api_key={API_KEY}"
+        response = requests.get(api_url)
+        response.raise_for_status()
+        data = response.json()
+        
+        # Extract the necessary data
+        description = data.get('description', 'Unknown Food')
+        foodNutrients = data.get('foodNutrients', [])
+        
+        def get_nutrient_value(nutrients, nutrient_name):
+            print("All Nutrients:", nutrients)
+            for nutrient in nutrients:
+                if nutrient.get('nutrientName') == nutrient_name:
+                    return nutrient.get('value', 0.0)
+            return 0.0
+        
+        fat = get_nutrient_value(foodNutrients, 'Total lipid (fat)')
+        protein = get_nutrient_value(foodNutrients, 'Protein')
+        carbohydrates = get_nutrient_value(foodNutrients, 'Carbohydrate, by difference')
+        calories = get_nutrient_value(foodNutrients, 'Energy')
+        
+        print("Nutrient Values - Fat:", fat, "Protein:", protein, "Carbs:", carbohydrates, "Calories:", calories)  # Debugging print statement
+        
+        # Create a new Food object
+        food = Food.objects.create(
+            name=description,
+            fat=fat or 0.0,
+            protein=protein or 0.0,
+            carbohydrates=carbohydrates or 0.0,
+            calories=calories or 0.0,
+            fdcId=fdcId
+        )
+    
+    # Assuming you have a Cart model to handle the user's cart
+    cart, created = Cart.objects.get_or_create(user=user)
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, food=food)
+    
+    return redirect('app_itmunch:cart')
+
+def cart_view(request):
+    user = request.user
+    cart, created = Cart.objects.get_or_create(user=user)
+    cart_items = CartItem.objects.filter(cart=cart)
+    
+    print("Cart Items:", cart_items)
+    
+    return render(request, 'app_itmunch/cart.html', {'cart': cart, 'cart_items': cart_items})
+
+def remove_from_cart(request, food_id):
+    user = request.user
+    cart, created = Cart.objects.get_or_create(user=user)
+    food = get_object_or_404(Food, id=food_id)
+    cart.items.remove(food)
+    return redirect('app_itmunch:cart')

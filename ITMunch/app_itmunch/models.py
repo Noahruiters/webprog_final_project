@@ -28,3 +28,22 @@ class NutritionEntry(models.Model):
     ], default='Lunch')
     ingredient = models.CharField(max_length=128, default="")
     weight = models.PositiveIntegerField(default=0)
+
+
+
+class Food(models.Model):
+    name = models.CharField(max_length=100)
+    fat = models.FloatField()
+    protein = models.FloatField()
+    carbohydrates = models.FloatField()
+    calories = models.FloatField()
+    fdcId = models.IntegerField(unique=True)
+
+class Cart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    items = models.ManyToManyField(Food, through='CartItem')
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    food = models.ForeignKey(Food, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)

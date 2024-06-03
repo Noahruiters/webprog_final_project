@@ -12,5 +12,13 @@ urlpatterns = [
     path('edit/', views.questions_view, name='edit'),
     path('save_entry/', views.save_nutritionEntry, name='save_entry'), 
     path('load_entry/', views.load_nutritionEntries, name='load_entry'),#TODO: add variables I think
-    path('delete_entry/', views.delete_nutritionEntry, name='delete_entry')#TODO: add variables I think
+    path('delete_entry/', views.delete_nutritionEntry, name='delete_entry'),#TODO: add variables I think
+
+
+
+    path('results/', views.search_results, name='search_results'),
+    path('add_to_cart/<int:fdcId>/', views.add_to_cart, name='add_to_cart'),
+    path('cart/', views.cart_view, name='cart'),
+    path('cart/remove/<int:food_id>/', views.remove_from_cart, name='remove_from_cart'),
+
 ]
