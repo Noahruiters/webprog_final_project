@@ -11,6 +11,6 @@ urlpatterns = [
     path('questions/', views.questions_view, name='questions'),
     path('edit/', views.questions_view, name='edit'),
     path('save_entry/', views.save_nutritionEntry, name='save_entry'), 
-    path('load_entry/', views.load_nutritionEntry, name='load_entry'),#TODO: add variables I think
+    path('load_entry/', views.load_nutritionEntries, name='load_entry'),#TODO: add variables I think
     path('delete_entry/', views.delete_nutritionEntry, name='delete_entry')#TODO: add variables I think
 ]

@@ -244,7 +244,7 @@ def save_nutritionEntry(request):
         form.save()
     return redirect('app_itmunch:index') #TODO: Notification
 
-def load_nutritionEntry(request, day, daytime):
+def load_nutritionEntries(request, day, daytime):
     user = request.user
     if day is None: return 
     elif daytime is None: 
@@ -252,11 +252,11 @@ def load_nutritionEntry(request, day, daytime):
     else:
         NutritionEntries = NutritionEntry.objects.get_queryset(user == user and day == day and daytime == daytime)
     entries = []
-    for entry in list(NutritionEntries):
+    for entry in list(NutritionEntries).sort():
         entries.append({
             "day": entry.day,
             "daytime": entry.daytime,
-            "ingredient": nutrition_list_from_api(entry.ingredient),
+            "ingredient": nutrition_list_from_api(inputstring=entry.ingredient, number_of_entries=1),
             "weight": entry.weight
         })
     return render(request, 'app_itmunch/index.html', {"entries": entries}) #todo: link to a proper html site
