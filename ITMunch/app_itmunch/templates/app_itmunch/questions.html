@@ -6,16 +6,8 @@
 {% block body %}
 
 
-
-<style>
-    .question.active{
-        display: flex;
-    }
-    .question{
-        display: none;
-    }
-</style>
-
+    <div class="question_box">
+        <div>
     <h1>Questions</h1>
 
     <form id="question-form" method="post">
@@ -47,4 +39,6 @@
         <button id="button_submit" type="button" style="display: none">Submit</button>
     </form>
     <button id="button_next" type="button">Next</button>
+</div>
+    </div>
 {% endblock %}
