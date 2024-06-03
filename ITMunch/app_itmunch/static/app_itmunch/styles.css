@@ -25,6 +25,18 @@
 
 }
 
+#button_next {
+    transition-duration: 0.4s;
+    background-color: #B0DBB2;
+    color: black;
+    border: 2px solid #B0DBB2;
+    border-radius: 3px;
+}
+
+
+#button_next:hover {
+    color: white;
+}
 
 
 .index_container {
