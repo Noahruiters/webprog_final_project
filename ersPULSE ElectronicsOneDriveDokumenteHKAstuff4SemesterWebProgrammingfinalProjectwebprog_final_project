@@ -1,0 +1,266 @@
+[33mcommit 24ce229929e31f28afcce58274cbfa9966e9443a[m[33m ([m[1;36mHEAD[m[33m)[m
+Author: Maxim Eremenko <mxmere@gmail.com>
+Date:   Sat Jun 1 18:04:39 2024 +0900
+
+    added return function, needs to be adjusted in the future
+
+[33mcommit 5fde7057de96f7c79d4f2e47cc74da3c31c2bb82[m
+Author: Maxim Eremenko <mxmere@gmail.com>
+Date:   Sat Jun 1 18:00:16 2024 +0900
+
+    added Nutriment, RecipeFormula and RecipeIngredient classes in models.py and wrote saving function in views.py
+
+[33mcommit b7a3c727c585ea792363a377d54177cd56499516[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: Noahruiters <noahruiters@gmail.com>
+Date:   Mon Jun 3 23:05:07 2024 +0900
+
+    minor changes
+
+[33mcommit e3c47fecb876ca9cffc7f61018ae9b584c904606[m
+Author: Noahruiters <noahruiters@gmail.com>
+Date:   Mon Jun 3 23:00:46 2024 +0900
+
+    minor changes
+
+[33mcommit ee1a74088c5a90de2a279f4c09596dee77025028[m
+Author: Noahruiters <noahruiters@gmail.com>
+Date:   Mon Jun 3 22:50:29 2024 +0900
+
+    styling questions.html
+
+[33mcommit a60f5fd69c696dafed1403df1200685d00abe0ab[m
+Author: th7n <royer.than@gmail.com>
+Date:   Mon Jun 3 22:37:22 2024 +0900
+
+    fixed popup
+
+[33mcommit 601117e7c602a95bbf5c6c9f21a2bb7ab2f54233[m
+Author: Alicia <alicia.vial@ecam.fr>
+Date:   Mon Jun 3 13:54:11 2024 +0200
+
+    Tuto pop up page corrected
+
+[33mcommit 8c71b52eca989be36584cb235b6de2a8dc967993[m
+Merge: adda740 7c9b274
+Author: Alicia <alicia.vial@ecam.fr>
+Date:   Mon Jun 3 13:12:48 2024 +0200
+
+    Tuto pop-up page added
+
+[33mcommit adda740d5e2a1cc6770ce42dc4f088682408538d[m
+Author: Alicia <alicia.vial@ecam.fr>
+Date:   Mon Jun 3 12:50:11 2024 +0200
+
+    Added po-up tuto, WARNING in the final version, modify sessionStorage to localStorage to display the popup only the first time index page is accessed
+
+[33mcommit 7c9b2746d4910dd7e52194784e22e633dff936bf[m
+Author: Noahruiters <noahruiters@gmail.com>
+Date:   Mon Jun 3 19:07:10 2024 +0900
+
+    styling
+
+[33mcommit 5504b42aca0431c4d79aa8fd58481b71ff4fc4e0[m
+Merge: 52e838d 2b96405
+Author: Noahruiters <163076729+Noahruiters@users.noreply.github.com>
+Date:   Mon Jun 3 18:36:18 2024 +0900
+
+    Merge pull request #2 from Noahruiters/Noah
+    
+    Noah
+
+[33mcommit 2b964058eac1e5fab37c9f2dcb92c413d22b8a82[m[33m ([m[1;31morigin/Noah[m[33m)[m
+Merge: edecc6b 52e838d
+Author: Noahruiters <noahruiters@gmail.com>
+Date:   Mon Jun 3 18:35:22 2024 +0900
+
+    Merge branch 'main' of https://github.com/Noahruiters/webprog_final_project into Noah
+
+[33mcommit edecc6bd54e2084a92794dc96f872c65198b27c8[m
+Author: Noahruiters <noahruiters@gmail.com>
+Date:   Sun Jun 2 21:04:09 2024 +0900
+
+    styled questions
+
+[33mcommit 52e838dae21eb6349491cfd572cf192a7387fffd[m
+Merge: 0354ebe db00c4e
+Author: Noahruiters <163076729+Noahruiters@users.noreply.github.com>
+Date:   Sun Jun 2 17:00:23 2024 +0900
+
+    Merge pull request #1 from Noahruiters/Noah
+    
+    Noah
+
+[33mcommit db00c4e2155a63ff1bc6d7674980625c1fd1ac56[m
+Merge: 255a021 0354ebe
+Author: Noahruiters <noahruiters@gmail.com>
+Date:   Sun Jun 2 16:56:39 2024 +0900
+
+    pulled main
+
+[33mcommit 255a021c166ad58cb2b0bf37432f6a208b35df35[m
+Author: Noahruiters <noahruiters@gmail.com>
+Date:   Sun Jun 2 16:28:23 2024 +0900
+
+    added responsiveness
+
+[33mcommit 407aad44a11d853489709720b2c7274c56b73922[m
+Author: Noahruiters <noahruiters@gmail.com>
+Date:   Sat Jun 1 21:27:28 2024 +0900
+
+    added styling
+
+[33mcommit 50ea09e69983fe0adbe5a13e028315e58823f194[m
+Author: Noahruiters <noahruiters@gmail.com>
+Date:   Sat Jun 1 19:15:28 2024 +0900
+
+    added styling to index
+
+[33mcommit 77b03e2ef04c9e6461f5d69527d2b266b8b033f3[m
+Author: Noahruiters <noahruiters@gmail.com>
+Date:   Sat Jun 1 16:09:28 2024 +0900
+
+    .
+
+[33mcommit 0354ebe05555a94a26ca4ec294f91149c042320e[m
+Author: Maxim Eremenko <mxmere@gmail.com>
+Date:   Sat Jun 1 15:58:30 2024 +0900
+
+    added calories in nutrition_list_from_api function
+
+[33mcommit e50d9e4caa205b8d360fe6963f2b3d1c48a050cc[m
+Author: th7n <royer.than@gmail.com>
+Date:   Fri May 31 18:42:00 2024 +0900
+
+    fixed early submission on "enter"
+
+[33mcommit aed30249b3795f541d402d11223bb86066ab094c[m
+Author: Alicia <alicia.vial@ecam.fr>
+Date:   Fri May 31 10:52:40 2024 +0200
+
+    Added questions defiling
+
+[33mcommit 7b1febfdb55975378a02153a0cfbb8261599de5d[m
+Author: th7n <royer.than@gmail.com>
+Date:   Fri May 31 16:36:09 2024 +0900
+
+    adding js file
+
+[33mcommit 9af84a89bba53d643c553a600658b372b9774f78[m
+Author: Noahruiters <noahruiters@gmail.com>
+Date:   Fri May 31 14:35:29 2024 +0900
+
+    styled register.html and added layout1 and 2
+
+[33mcommit 95b701e871475181e3f8e44c65060208cf1a8c8e[m
+Author: Noahruiters <noahruiters@gmail.com>
+Date:   Thu May 30 18:50:40 2024 +0900
+
+    login changed
+
+[33mcommit e7bcd7c9f8daf8401f68b5e0abe4dfb4b6c11886[m[33m ([m[1;31morigin/questions[m[33m)[m
+Author: th7n <royer.than@gmail.com>
+Date:   Thu May 30 15:12:33 2024 +0900
+
+    post meeting clarity
+    
+    adding maintain weigh✔️
+    for date yyyy/mm/dd, height cm, weight kg✔️
+    adding goal date✔️
+    message if calorie intake is too low✔️
+    allow user to edit profile info (answers to qst)✔️
+
+[33mcommit e1994767b46e977613a52f9138cad2fb64ec1c1a[m
+Author: th7n <royer.than@gmail.com>
+Date:   Thu May 30 14:59:22 2024 +0900
+
+    add sqlite db to gitignore
+
+[33mcommit 345df1d27273ec6b291bc74b5badba4fc2447c14[m
+Author: Maxim Eremenko <mxmere@gmail.com>
+Date:   Wed May 29 16:25:46 2024 +0900
+
+    added TODO in rest api function
+
+[33mcommit 66a76225190ee31ab4cf3392788c0845526a6309[m
+Author: Alicia <alicia.vial@ecam.fr>
+Date:   Wed May 29 05:58:04 2024 +0200
+
+    Nav bar added in layout.html
+
+[33mcommit e2185be2c1534db8084eccb9852d794e679b138e[m
+Author: th7n <royer.than@gmail.com>
+Date:   Fri May 24 14:59:23 2024 +0900
+
+    adding comments
+
+[33mcommit a54d81c9444a54ff857f930caf87f7c5117f0025[m
+Author: Maxim Eremenko <mxmere@gmail.com>
+Date:   Thu May 23 15:20:21 2024 +0900
+
+    Added documentation for nutrition_list_from_api function
+
+[33mcommit be5ff904dd50544150fa1237e412c56c35c41d05[m
+Author: Maxim Eremenko <mxmere@gmail.com>
+Date:   Thu May 23 14:59:46 2024 +0900
+
+    added function which returns a list of dictionaries containing nutritional data from a REST API
+
+[33mcommit 7f20eb8e9cf5762ec4dac63d3ad7974a734d7144[m
+Author: th7n <royer.than@gmail.com>
+Date:   Thu May 23 10:58:18 2024 +0900
+
+    added calorie estimation logic
+
+[33mcommit 768b02b2f7d7036f5e0737fbad738fe4b87bc696[m
+Author: th7n <royer.than@gmail.com>
+Date:   Wed May 22 23:44:02 2024 +0900
+
+    added questions + profile class
+
+[33mcommit 1de64fade5e5315d4eed15e2c4888dea0a35e8e2[m
+Author: th7n <royer.than@gmail.com>
+Date:   Wed May 22 21:19:06 2024 +0900
+
+    user login register logout
+
+[33mcommit 3b228ed94e2051e2bc6e229063ec421dae99c3c1[m
+Author: Alicia <alicia.vial@ecam.fr>
+Date:   Wed May 22 10:23:50 2024 +0200
+
+    layout and style files created
+
+[33mcommit 563c6b81acfab2e0465908bfababf0812d3791c3[m
+Author: th7n <royer.than@gmail.com>
+Date:   Wed May 22 16:59:27 2024 +0900
+
+    created app_itmunch + hello world
+
+[33mcommit 5bea094f9094b8bc20f0de9ecbeda902f7b56c19[m
+Author: Noahruiters <noahruiters@gmail.com>
+Date:   Tue May 14 14:31:14 2024 +0900
+
+    added django template project
+
+[33mcommit 7d35143b5a18b85fa214f303d269b8e87df502bf[m
+Author: Noahruiters <noahruiters@gmail.com>
+Date:   Tue May 14 14:20:58 2024 +0900
+
+    added gitignore
+
+[33mcommit 65ee2ded55d813c8cbd036a707a851ce5519a311[m
+Author: Maxim Eremenko <83768948+EremenkoMaxim@users.noreply.github.com>
+Date:   Tue May 14 12:05:15 2024 +0900
+
+    Create heyy
+
+[33mcommit 2cbad4d6e1f14fa46521331ea0775559ade0847d[m
+Author: th7n <royer.than@gmail.com>
+Date:   Tue May 14 11:38:56 2024 +0900
+
+    test commit
+
+[33mcommit 17838f1cbb1b89468ee31e68da725bcad4eade37[m
+Author: Noahruiters <163076729+Noahruiters@users.noreply.github.com>
+Date:   Tue May 14 11:08:03 2024 +0900
+
+    Initial commit
