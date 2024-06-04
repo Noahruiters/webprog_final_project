@@ -5,13 +5,13 @@
 {% block body %}
     <div class="register">
         <div>
-<h1>Register</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button id="button_login" type="submit">Register</button>
-    </form>
-    <p>Already have an account? <a href="{% url 'app_itmunch:login' %}">Login here</a></p>
-</div>
-</div>
+            <h1>Register</h1>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button id="button_login" type="submit">Register</button>
+            </form>
+            <p>Already have an account? <a href="{% url 'app_itmunch:login' %}">Login here</a></p>
+        </div>
+    </div>
 {% endblock %}

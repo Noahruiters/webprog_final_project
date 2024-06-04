@@ -3,37 +3,6 @@
 {% block title %}Index{% endblock %}
 
 {% block body %}
-
-    <style>
-        .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1; 
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            padding-top: 60px;
-            background-color: rgba(56, 121, 59, 0.4);
-        }
-        .modal-content {
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid black;
-            background: white;
-            width: 50%;
-            max-width: 600px; /* Ensuring the modal is not too wide */
-            box-shadow: 0 5px 15px rgba(0,0,0,.5);
-        }
-        .tuto.active {
-            display: block;
-        }
-        .tuto {
-            display: none;
-        }
-    </style>
-
     <div class="index_container">
         <div class="index_flexbox">
             <h2>Calendar</h2>
@@ -94,12 +63,9 @@
                     </form>
                 </li>
             {% endfor %}
-
-
         </div>
     </div>
 
-    <!-- pop_up tuto content -->
     <div id="myModal" class="modal">
         <div class="modal-content">
             <h1>How to use ITMunch?</h1>

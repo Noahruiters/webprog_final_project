@@ -33,11 +33,17 @@
     border-radius: 3px;
 }
 
+#button_submit {
+    transition-duration: 0.4s;
+    background-color: #B0DBB2;
+    color: black;
+    border: 2px solid #B0DBB2;
+    border-radius: 3px;
+}
 
 #button_next:hover {
     color: white;
 }
-
 
 .index_container {
     display: flex;
@@ -45,7 +51,6 @@
     justify-content: space-between;
     padding: 10px;
 }
-
 
 .index_flexbox {
     padding: 20px;
@@ -56,7 +61,6 @@
     position: relative;
 }
 
-
 .index_flexbox:not(:last-child)::after {
     content: '';
     position: absolute;
@@ -66,7 +70,6 @@
     height: 100%;
     background-color: #ccc;
 }
-
 
 .fc-daygrid-day-number {
     color: rgb(101, 101, 101);
@@ -99,15 +102,9 @@
     background-color: #38793B;
 }
 
-
-
-
-
 .login > div {
     text-align: center;
 }
-
-
 
 .register > div {
     text-align: center;
@@ -128,6 +125,36 @@
     display: none;
 }
 
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    padding-top: 60px;
+    background-color: rgba(56, 121, 59, 0.4);
+}
+
+.modal-content {
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid black;
+    background: white;
+    width: 50%;
+    max-width: 600px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.5);
+}
+
+.tuto.active {
+    display: block;
+}
+
+.tuto {
+    display: none;
+}
 
 @media (max-width: 768px) {
     .index_flexbox {
@@ -137,17 +164,12 @@
     .index_flexbox:not(:last-child)::after {
         display: none; 
     }
-    .index_flexbox:nth-child(2){
+    .index_flexbox:nth-child(2) {
         order: -1;
     }
-
-
-
 }
 
-
 @media (min-width: 767px) {
-        
     .login {
         display: flex;
         flex-wrap: wrap;
@@ -166,7 +188,6 @@
         padding: 30px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
-
     
     .register {
         display: flex;
@@ -185,7 +206,6 @@
         padding: 30px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
-
 
     .edit {
         display: flex;
@@ -222,8 +242,4 @@
         padding: 30px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
-
-
-
 }
-

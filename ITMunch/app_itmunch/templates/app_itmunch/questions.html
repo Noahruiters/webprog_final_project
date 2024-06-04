@@ -1,44 +1,43 @@
 {% extends "app_itmunch/layout2.html" %}
 
-
 {% block title %}Questions{% endblock %}
 
 {% block body %}
-
-
     <div class="question_box">
         <div>
-    <h1>Questions</h1>
-
-    <form id="question-form" method="post">
-        {% csrf_token %}
-        <div class="question active">
-            {{ form.goal.label_tag }} {{ form.goal }}
+            <h1>Questions</h1>
+            <br>
+            <form id="question-form" method="post">
+                {% csrf_token %}
+                <div class="question active">
+                    {{ form.goal.label_tag }} {{ form.goal }}
+                </div>
+                <div class="question">
+                    {{ form.gender.label_tag }} {{ form.gender }}
+                </div>
+                <div class="question">
+                    {{ form.birthday.label_tag }} {{ form.birthday }}
+                </div>
+                <div class="question">
+                    {{ form.height.label_tag }} {{ form.height }}
+                </div>
+                <div class="question">
+                    {{ form.current_weight.label_tag }} {{ form.current_weight }}
+                </div>
+                <div class="question">
+                    {{ form.goal_weight.label_tag }} {{ form.goal_weight }}
+                </div>
+                <div class="question">
+                    {{ form.goal_date.label_tag }} {{ form.goal_date }}
+                </div>
+                <div class="question">
+                    {{ form.activity.label_tag }} {{ form.activity }}
+                </div>
+                <br>
+                <button id="button_submit" type="button" style="display: none">Submit</button>
+            </form>
+            <br>
+            <button id="button_next" type="button">Next</button>
         </div>
-        <div class="question">
-            {{ form.gender.label_tag }} {{ form.gender }}
-        </div>
-        <div class="question">
-            {{ form.birthday.label_tag }} {{ form.birthday }}
-        </div>
-        <div class="question">
-            {{ form.height.label_tag }} {{ form.height }}
-        </div>
-        <div class="question">
-            {{ form.current_weight.label_tag }} {{ form.current_weight }}
-        </div>
-        <div class="question">
-            {{ form.goal_weight.label_tag }} {{ form.goal_weight }}
-        </div>
-        <div class="question">
-            {{ form.goal_date.label_tag }} {{ form.goal_date }}
-        </div>
-        <div class="question">
-            {{ form.activity.label_tag }} {{ form.activity }}
-        </div>
-        <button id="button_submit" type="button" style="display: none">Submit</button>
-    </form>
-    <button id="button_next" type="button">Next</button>
-</div>
     </div>
 {% endblock %}

@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded',function(){
     const form = document.querySelector('form');
     let currentQuestionIndex = 0;
 
-
     nextButton.onclick=function(){
         console.log("button clicked");
         const currentQuestion=questions[currentQuestionIndex];

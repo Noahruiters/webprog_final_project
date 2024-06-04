@@ -29,7 +29,9 @@ class NutritionEntry(models.Model):
     ingredient = models.CharField(max_length=128, default="")
     weight = models.PositiveIntegerField(default=0)
 
-
+#########################################################################
+### THE CODE BELOW IS NOT USED BUT WAS KEPT TO SHOW WHAT WE WORKED ON ###
+#########################################################################
 
 class Food(models.Model):
     name = models.CharField(max_length=100)
