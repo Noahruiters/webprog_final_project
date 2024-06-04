@@ -64,16 +64,16 @@
             </div>
         </div>
         <div class="index_flexbox">
-            <h2>Recipes</h2>
-            <button id="index_button">Add Now</button>
-
+            <h2>Add Food</h2>
+            <br>
             <form method="GET" action="{% url 'app_itmunch:index' %}">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit">Search</button>
+                <button id="index_button" type="submit">Search</button>
             </form>
 
             {% for item in nutrition_list %}
+                <br>    
                 <li>
                     <span>Name: {{ item.name }}</span>
                     <span>Fat: {{ item.fat }}</span>
@@ -90,7 +90,7 @@
                             <option value="lunch">Lunch</option>
                             <option value="dinner">Dinner</option>
                         </select>
-                        <button type="submit">Add</button>
+                        <button id="index_button" type="submit">Add</button>
                     </form>
                 </li>
             {% endfor %}
@@ -104,16 +104,16 @@
         <div class="modal-content">
             <h1>How to use ITMunch?</h1>
             <div class="tuto active">
+                <h2>Ready for a brand new start!</h2>
+                <p>ITMunch is a website that enables you to track your daily nutrition intake, set dietary goals, and receive personalized recommendations based on your nutritional needs.</p>
+            </div>
+            <div class="tuto">
+                <h2>Follow your progress monthly!</h2>
+                <p>For every meal of your day, you can add the food you eat to follow your calorie intake. Check the calendar!</p>
+            </div>
+            <div class="tuto">
                 <h2>Add the food you eat daily!</h2>
-                <p>For every meal of your day, you can add the food you eat to follow your calorie intake. You have to weight your food, and then add it to the corresponding meal by clicking on the "add" button.</p>
-            </div>
-            <div class="tuto">
-                <h2>Follow your progress monthly</h2>
-                <p>tuto text</p>
-            </div>
-            <div class="tuto">
-                <h2>Add new food to your list</h2>
-                <p>tuto text</p>
+                <p>To add new food to your meals, search its name and add it to the corresponding meal (breakfast, lunch or dinner) by clicking on the "add" button.</p>
             </div>
             <button id="next">Next</button>
             <button id="close" style="display:none">Close</button>
