@@ -156,6 +156,29 @@ def logout_view(request):
     logout(request)
     return redirect('app_itmunch:login')
 
+
+def delete_user_view(request, user_id):
+    """Delete user view for the application.
+
+    Args:
+        request (HttpRequest): The request object used to generate this response.
+        user_id (int): The ID of the user to delete.
+
+    Returns:
+        HttpResponseRedirect: Redirects to the login page after user deletion.
+    """
+    
+    # Get the user object by ID, if not found return 404
+    user = get_object_or_404(User, id=user_id)
+    
+    # Check if the user making the request is the user to be deleted or has appropriate permissions
+    if request.user == user or request.user.is_staff:
+        user.delete()  # Delete the user
+        logout(request)  # Log out the current session
+        return redirect('app_itmunch:login')  # Redirect to the login page
+    else:
+        return redirect('app_itmunch:index')  # Redirect to a different page if unauthorized
+
 def questions_view(request):
     """Questions view for the application.
 
